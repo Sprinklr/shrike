@@ -1,0 +1,3 @@
+rootProject.name = 'shrike'
+
+include ':app'
