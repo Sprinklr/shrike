@@ -182,7 +182,8 @@
          form-data (doto
                     (js/FormData.)
                      (.append "key" auth-key)
-                     (.append "topic" topic))
+                     (.append "topic" topic)
+                     (.append "mobile?" true))
          message {:body form-data
                   :header "Accept: application/json "
                   :handler #(dispatch [:insider-success %1])
