@@ -6,6 +6,8 @@
    [ajax.core :refer [POST]]
    [shrike.db :as db :refer [app-db]]))
 
+(def default-uri "https://go.getlittlebird.com:567")
+
 ;; -- Interceptors ------------------------------------------------------------
 ;;
 ;; See https://github.com/Day8/re-frame/blob/master/docs/Interceptors.md
@@ -40,10 +42,10 @@
  :auth-in
  validate-spec
  (fn [db [_ email password]]
-   (let [url "https://stagingv2.getlittlebird.com:567/api/v1/auth"
+   (let [url (str default-uri "/api/v1/auth")
          form-data (doto
                     (js/FormData.)
-                     (.append "id" email)
+                    (.append "id" email)
                      (.append "password" password))
          message {:body form-data
                   :header "Accept: application/json "
@@ -94,7 +96,7 @@
 (reg-event-db
  :create-profile
  (fn [db [_ handle auth-key]]
-   (let [url "https://stagingv2.getlittlebird.com:567/api/v1/network/single-handle"
+   (let [url (str default-uri "/api/v1/network/single-handle")
          form-data (doto
                     (js/FormData.)
                      (.append "key" auth-key)
@@ -131,7 +133,7 @@
 (reg-event-db
  :fetch-profile
  (fn [db [_ auth-key network-id]]
-   (let [url "https://stagingv2.getlittlebird.com:567/api/v1/fetch"
+   (let [url (str default-uri "/api/v1/fetch")
          form-data (doto
                     (js/FormData.)
                      (.append "key" auth-key)
@@ -158,8 +160,7 @@
             (< try-num 50))
        (do
          (reset! counter (+ 1 try-num))
-         (js/setTimeout
-          #(dispatch [:fetch-profile auth-key network-id]) 4000)
+         (dispatch [:fetch-profile auth-key network-id])
          db)
        (or (> try-num 50)
            (= "BAD" (profile "bad-handle")))
@@ -177,7 +178,7 @@
 (reg-event-db
  :fetch-insiders
  (fn [db [_ auth-key topic]]
-   (let [url "https://stagingv2.getlittlebird.com:567/api/v1/fetch"
+   (let [url (str default-uri "/api/v1/fetch")
          form-data (doto
                     (js/FormData.)
                      (.append "key" auth-key)
