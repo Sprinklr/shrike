@@ -157,10 +157,11 @@
          influential (get-in data ["networks" "influential-in"])]
      (cond
        (and (= retry "no network")
-            (< try-num 50))
+            (< try-num 51))
        (do
          (reset! counter (+ 1 try-num))
-         (dispatch [:fetch-profile auth-key network-id])
+         (js/setTimeout 
+          #(dispatch [:fetch-profile auth-key network-id]) 1000)
          db)
        (or (> try-num 50)
            (= "BAD" (profile "bad-handle")))
