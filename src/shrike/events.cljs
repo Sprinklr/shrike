@@ -117,7 +117,6 @@
 (reg-event-db
  :profile-fail
  (fn [db [_ error]]
-   (prn "profile fail" error)
    (assoc db
           :profile-loading false
           :profile-error error
