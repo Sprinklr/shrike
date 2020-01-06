@@ -4,7 +4,7 @@ A Clojure and ClojureScript React Natvie application built with the Re-Natal wra
 
 ## Usage
 
-Put in on your phone. 
+Put it on your phone. 
 
 ## License
 
